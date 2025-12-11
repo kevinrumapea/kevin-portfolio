@@ -81,7 +81,7 @@ const projects: Project[] = [
     description:
       'Planned project focusing on dashboards, data visualization, and case studies using SQL and analytics tools.',
     tech: 'SQL · Excel · Looker Studio / Data Studio',
-    imageSrc: '', // ganti
+    imageSrc: '/projects/placeholder.png', // ganti
     githubUrl: '',
     demoUrl: '',
   },

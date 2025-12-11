@@ -20,17 +20,16 @@ type GuestbookEntry = {
   createdAt: Timestamp | null;
 };
 
-
 const easeOutExpo: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 export default function GuestbookSection() {
   const [entries, setEntries] = useState<GuestbookEntry[]>([]);
+  const [loading, setLoading] = useState(true);
   const [name, setName] = useState('');
   const [message, setMessage] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // 🔁 Real-time listener
   useEffect(() => {
     const colRef = collection(db, 'guestbook');
     const q = query(colRef, orderBy('createdAt', 'desc'));
@@ -48,17 +47,18 @@ export default function GuestbookSection() {
           };
         });
         setEntries(docs);
+        setLoading(false);
       },
       (err) => {
         console.error('Guestbook subscribe error:', err);
         setError('Failed to load messages.');
-      },
+        setLoading(false);
+      }
     );
 
     return () => unsub();
   }, []);
 
-  // ✉️ Submit handler
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     setError(null);
@@ -81,9 +81,7 @@ export default function GuestbookSection() {
         createdAt: serverTimestamp(),
       });
 
-      // reset form
       setMessage('');
-      // boleh biarin name tetap (biar user gak perlu ngetik ulang)
     } catch (err) {
       console.error('Guestbook add error:', err);
       setError('Failed to send message. Please try again.');
@@ -101,7 +99,6 @@ export default function GuestbookSection() {
       viewport={{ once: true, amount: 0.3 }}
       transition={{ duration: 0.6, ease: easeOutExpo }}
     >
-      {/* Header */}
       <div className="mb-8 space-y-2">
         <p className="text-xs md:text-sm uppercase tracking-[0.35em] text-sky-400">
           Guestbook
@@ -110,13 +107,12 @@ export default function GuestbookSection() {
           Say <span className="text-sky-400">hello</span>
         </h2>
         <p className="text-sm text-slate-400 max-w-lg">
-          Leave a short message, feedback, or just a hello. Messages appear
-          here in real-time 😎.
+          Leave a short message, feedback, or just a hello. Messages appear here
+          in real-time 😎.
         </p>
       </div>
 
       <div className="grid gap-8 md:grid-cols-[minmax(0,1.1fr)_minmax(0,1.2fr)] items-start">
-        {/* FORM */}
         <motion.form
           onSubmit={handleSubmit}
           className="relative rounded-2xl border border-slate-800 bg-slate-950/70 backdrop-blur-md p-5 md:p-6 shadow-[0_20px_60px_rgba(15,23,42,0.9)] overflow-hidden"
@@ -125,7 +121,6 @@ export default function GuestbookSection() {
           viewport={{ once: true, amount: 0.4 }}
           transition={{ duration: 0.55, delay: 0.1, ease: easeOutExpo }}
         >
-          {/* subtle glow */}
           <div className="pointer-events-none absolute inset-[-40%] bg-[radial-gradient(circle_at_top,_rgba(56,189,248,0.16),transparent_60%),radial-gradient(circle_at_bottom,_rgba(59,130,246,0.16),transparent_60%)] opacity-80 blur-3xl" />
 
           <div className="relative space-y-4">
@@ -161,11 +156,7 @@ export default function GuestbookSection() {
               </div>
             </div>
 
-            {error && (
-              <p className="text-xs text-rose-400">
-                {error}
-              </p>
-            )}
+            {error && <p className="text-xs text-rose-400">{error}</p>}
 
             <motion.button
               type="submit"
@@ -180,7 +171,7 @@ export default function GuestbookSection() {
           </div>
         </motion.form>
 
-        {/* LIST PESAN */}
+        {/* ✅ INI YANG DIPERBAIKI */}
         <motion.div
           className="space-y-3 max-h-[360px] overflow-y-auto pr-1 custom-scroll"
           initial={{ opacity: 0, y: 16 }}
@@ -188,59 +179,59 @@ export default function GuestbookSection() {
           viewport={{ once: true, amount: 0.4 }}
           transition={{ duration: 0.55, delay: 0.15, ease: easeOutExpo }}
         >
-          {entries.length === 0 && (
+          {loading ? (
+            <div className="rounded-2xl border border-dashed border-slate-800 bg-slate-950/40 px-4 py-6 text-sm text-slate-400">
+              Loading messages...
+            </div>
+          ) : entries.length === 0 ? (
             <div className="rounded-2xl border border-dashed border-slate-800 bg-slate-950/40 px-4 py-6 text-sm text-slate-400">
               No messages yet. Be the first one to say hi 👋
             </div>
-          )}
+          ) : (
+            entries.map((entry, index) => {
+              const date = entry.createdAt?.toDate ? entry.createdAt.toDate() : null;
 
-          {entries.map((entry, index) => {
-            const date =
-              entry.createdAt?.toDate
-                ? entry.createdAt.toDate()
-                : null;
-
-            return (
-              <motion.article
-                key={entry.id}
-                className="rounded-2xl border border-slate-800 bg-slate-950/60 px-4 py-3 text-sm text-slate-200 shadow-[0_10px_30px_rgba(15,23,42,0.6)]"
-                initial={{ opacity: 0, y: 10, scale: 0.98 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{
-                  duration: 0.35,
-                  delay: 0.03 * index,
-                  ease: easeOutExpo,
-                }}
-              >
-                <div className="flex items-baseline justify-between gap-3">
-                  <p className="font-medium text-sky-300 text-xs md:text-[13px]">
-                    {entry.name || 'Anonymous'}
-                  </p>
-                  {date && (
-                    <p className="text-[10px] text-slate-500">
-                      {date.toLocaleDateString('id-ID', {
-                        day: '2-digit',
-                        month: 'short',
-                        year: 'numeric',
-                      })}{' '}
-                      ·{' '}
-                      {date.toLocaleTimeString('id-ID', {
-                        hour: '2-digit',
-                        minute: '2-digit',
-                      })}
+              return (
+                <motion.article
+                  key={entry.id}
+                  className="rounded-2xl border border-slate-800 bg-slate-950/60 px-4 py-3 text-sm text-slate-200 shadow-[0_10px_30px_rgba(15,23,42,0.6)]"
+                  initial={{ opacity: 0, y: 10, scale: 0.98 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{
+                    duration: 0.35,
+                    delay: 0.03 * index,
+                    ease: easeOutExpo,
+                  }}
+                >
+                  <div className="flex items-baseline justify-between gap-3">
+                    <p className="font-medium text-sky-300 text-xs md:text-[13px]">
+                      {entry.name || 'Anonymous'}
                     </p>
-                  )}
-                </div>
-                <p className="mt-1.5 text-xs md:text-[13px] text-slate-200 whitespace-pre-line">
-                  {entry.message}
-                </p>
-              </motion.article>
-            );
-          })}
+                    {date && (
+                      <p className="text-[10px] text-slate-500">
+                        {date.toLocaleDateString('id-ID', {
+                          day: '2-digit',
+                          month: 'short',
+                          year: 'numeric',
+                        })}{' '}
+                        ·{' '}
+                        {date.toLocaleTimeString('id-ID', {
+                          hour: '2-digit',
+                          minute: '2-digit',
+                        })}
+                      </p>
+                    )}
+                  </div>
+                  <p className="mt-1.5 text-xs md:text-[13px] text-slate-200 whitespace-pre-line">
+                    {entry.message}
+                  </p>
+                </motion.article>
+              );
+            })
+          )}
         </motion.div>
       </div>
 
-      {/* optional: custom scrollbar styling */}
       <style jsx>{`
         .custom-scroll::-webkit-scrollbar {
           width: 6px;

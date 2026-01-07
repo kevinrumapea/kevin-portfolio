@@ -16,6 +16,7 @@ export interface GooeyNavProps {
   timeVariance?: number;
   colors?: number[];
   initialActiveIndex?: number;
+  
 }
 
 const GooeyNav: React.FC<GooeyNavProps> = ({

@@ -127,17 +127,17 @@ export default function Hero() {
         </motion.div>
 
         <ProfileCard
-          avatarUrl="/avatar-kepin-removebg-preview.png"
-          name="Kevin Christian B. Rumapea"
-          title="Full-Stack Developer & Data Enthusiast"
-          handle="kevincode"
+          avatarUrl="/avatar-kepin.jpg"
+          name="Kevin Christian B. Rumapea "
+          title="Full-Stack Developer"
+          handle="kevin.rumapea"  
           status="Open for Internship"
           contactText="Download CV"
           showUserInfo={true}
           enableTilt={true}
           showBehindGradient={true}
           onContactClick={() => {
-            window.open('/cv-kevin.pdf', '_blank');
+            window.open('/CV - Kevin Christian Benjamin Rumapea.pdf', '_blank');
           }}
         />
       </motion.div>
@@ -184,7 +184,6 @@ export default function Hero() {
               '--Full-Stack Developer',
               '--Mobile Developer',
               '--Web Developer',
-              '--Data Enthusiast',
             ]}
             className="text-sky-400 text-xl md:text-2xl font-medium"
           />

@@ -20,6 +20,7 @@ interface ProfileCardProps {
   contactText?: string;
   showUserInfo?: boolean;
   onContactClick?: () => void;
+  
 }
 
 const DEFAULT_BEHIND_GRADIENT =

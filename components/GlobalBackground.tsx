@@ -3,7 +3,7 @@
 import dynamic from 'next/dynamic';
 
 // Import LiquidEther secara dinamis + matikan SSR
-const LiquidEther = dynamic(() => import('@/components/LiquidEther'), {
+const LiquidEther = dynamic(() => import('@/components/LiquidEther'),  {
   ssr: false,
 });
 

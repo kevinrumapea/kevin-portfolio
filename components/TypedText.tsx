@@ -8,6 +8,7 @@ interface TypedTextProps {
   startDelay?: number;     // delay sebelum mulai ngetik (ms)
   className?: string;
   showCursor?: boolean;
+  
 }
 
 const TypedText: React.FC<TypedTextProps> = ({

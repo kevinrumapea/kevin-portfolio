@@ -14,6 +14,7 @@ interface CountUpProps {
   onStart?: () => void;
   onEnd?: () => void;
   
+  
 }
 
 export default function CountUp({

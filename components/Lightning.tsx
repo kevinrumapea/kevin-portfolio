@@ -15,6 +15,7 @@ const Lightning: React.FC<LightningProps> = ({ hue = 230, xOffset = 0, speed = 1
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
+    
 
     const resizeCanvas = () => {
       canvas.width = canvas.clientWidth;

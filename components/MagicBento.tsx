@@ -9,6 +9,7 @@ export interface BentoCardProps {
   label?: string;
   textAutoHide?: boolean;
   disableAnimations?: boolean;
+  
 }
 
 export interface BentoProps {

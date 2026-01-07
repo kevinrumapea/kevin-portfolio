@@ -53,7 +53,7 @@ float snoise(vec2 v){
   );
   m = m * m;
   m = m * m;
-
+  d
   vec3 x = 2.0 * fract(p * C.www) - 1.0;
   vec3 h = abs(x) - 0.5;
   vec3 ox = floor(x + 0.5);

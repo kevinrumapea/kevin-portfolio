@@ -3,7 +3,6 @@
 import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 
-
 export interface LiquidEtherProps {
   mouseForce?: number;
   cursorSize?: number;

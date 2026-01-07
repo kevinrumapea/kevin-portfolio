@@ -8,6 +8,7 @@ type ElectricBorderProps = PropsWithChildren<{
   thickness?: number;
   className?: string;
   style?: CSSProperties;
+  
 }>;
 
 function hexToRgba(hex: string, alpha = 1): string {

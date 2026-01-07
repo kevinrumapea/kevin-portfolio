@@ -10,6 +10,7 @@ import SplashScreen from '@/components/SplashScreen';
 import GuestbookSection from '@/components/sections/GuestbookSection';
 
 
+
 export default function HomePage() {
   return (
     <>

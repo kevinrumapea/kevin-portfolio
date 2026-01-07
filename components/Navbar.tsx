@@ -9,6 +9,7 @@ const items = [
   { label: 'Projects', href: '#projects' },
   { label: 'Contact', href: '#contact' },
   { label: 'Guestbook', href: '#guestbook' },
+  
 ];
 
 export default function Navbar() {

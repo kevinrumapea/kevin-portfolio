@@ -15,6 +15,7 @@ export default function SplashScreen() {
   const COUNTUP_DURATION = 5;   // duration={5}
   const BUFFER_AFTER_100 = 1.7; // jeda setelah 100 muncul
   const FADE_DURATION = 0.90;   // durasi fade-out
+  
 
   useEffect(() => {
     const totalVisibleMs = (COUNTUP_DURATION + BUFFER_AFTER_100) * 1000;

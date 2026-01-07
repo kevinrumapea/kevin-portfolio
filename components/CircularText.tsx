@@ -15,6 +15,7 @@ const getRotationTransition = (duration: number, from: number, loop: boolean = t
   duration,
   type: 'tween' as const,
   repeat: loop ? Infinity : 0
+  
 });
 
 const getTransition = (duration: number, from: number) => ({

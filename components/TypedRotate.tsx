@@ -8,6 +8,7 @@ interface Props {
   deletingSpeed?: number;
   delayBetween?: number;
   className?: string;
+  
 }
 
 

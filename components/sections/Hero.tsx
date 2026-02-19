@@ -137,7 +137,7 @@ export default function Hero() {
           enableTilt={true}
           showBehindGradient={true}
           onContactClick={() => {
-            window.open('/CV - Kevin Christian Benjamin Rumapea.pdf', '_blank');
+            window.open('/Kevin Christian B. Rumapea-CV.pdf', '_blank');
           }}
         />
       </motion.div>
